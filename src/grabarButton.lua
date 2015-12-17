@@ -27,16 +27,7 @@ temp = string.sub(temp, 1, 2)
 -- obtener modo actual
 local modo  = fibaro:get(_selfId, 'ui.modoLabel.value')
 
--- si el modo es vacaciones grabar vacationTemperature y no grabar
--- handTimestamp
-local claveTemp = 'vacationTemperature'
-local handTimestamp = false
--- si el modo es manual guardar handTemperature y handTimestamp
-if modo == 'Manual' then
-  claveTemp = 'handTemperature'
-  handTimestamp = calcularTimestamp(hora)
-end
-
+-- obtener panel correspondiente
 if not HC2 then
   HC2 = Net.FHttp("127.0.0.1", 11111)
 end
@@ -44,15 +35,17 @@ response ,status, errorCode = HC2:GET("/api/panels/heating/"..zona)
 local panel = json.decode(response)
 
 -- asignar valores
-if handTimestamp then
-  panel.properties.handTimestamp = tonumber(handTimestamp)
+-- si el modo es "Manual" guardar handTemperature y handTimestamp y poner
+-- vacationTemperature a 0
+if modo == 'Manual' then
+  panel.properties['handTemperature'] = tonumber(temp)
+  panel.properties.handTimestamp = tonumber(calcularTimestamp(hora))
+  panel.properties['vacationTemperatur'] = 0
+-- si es "Vacaciones", grabar vacationTemperatur y poner handTemperature a 0
+else
+  panel.properties['handTemperature'] = tonumber(temp)
+  panel.properties['vacationTemperatur'] = 0
 end
-panel.properties[claveTemp] = tonumber(temp)
-
-fibaro:debug("/api/panels/heating/"..zona)
-fibaro:debug(panel.properties.handTimestamp)
-fibaro:debug(panel.properties[claveTemp])
 
 -- guardar valores
-local json = json.encode(panel)
-esponse ,status, errorCode = HC2:PUT("/api/panels/heating/"..zona, json)
+HC2:PUT("/api/panels/heating/"..zona, json.encode(panel))

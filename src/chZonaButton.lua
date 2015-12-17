@@ -1,4 +1,3 @@
--- Este dispositivo virtual
 --[[ControlCalefaccion
 	Dispositivo virtual
 	chZonaButton.lua
@@ -16,20 +15,22 @@ end
 response ,status, errorCode = HC2:GET("/api/panels/heating")
 local zonas = json.decode(response)
 
+-- seleccionar la siguiete zona que corresponda
 local zona = fibaro:get(_selfId, 'ui.zonaLabel.value')
 local myKey = 1
 local zonas = json.decode(response)
 for key, value in pairs(zonas) do
   if value.id..'-'..value.name == zona then
-      if key < #zonas then myKey = key + 1 else myKey = 1 end
+    if key < #zonas then myKey = key + 1 else myKey = 1 end
     break
   else
     myKey = #zonas
   end
 end
-fibaro:debug(zonas[myKey].id..'-'..zonas[myKey].name)
-fibaro:call(_selfId, "setProperty", "ui.zonaLabel.value",
-  zonas[myKey].id..'-'..zonas[myKey].name)
 
--- actualizar estado real de temperatura
+-- actualizar la etiqueta de zona
+fibaro:call(_selfId, "setProperty", "ui.zonaLabel.value",
+ zonas[myKey].id..'-'..zonas[myKey].name) -- ..' '..'00ºC/00ºC'
+
+-- actualizar las etiquetas con estado real de temperatura
 fibaro:call(_selfId, "pressButton", "13")

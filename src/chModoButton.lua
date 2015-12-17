@@ -17,7 +17,8 @@ else
   modo = modos[1]
 end
 
+-- actualizar la etiqueta del modo
 fibaro:call(_selfId, "setProperty", "ui.modoLabel.value", modo)
 
--- actualizar estado real de temperatura
+-- actualizar las etiquetas con estado real de temperatura
 fibaro:call(_selfId, "pressButton", "13")
