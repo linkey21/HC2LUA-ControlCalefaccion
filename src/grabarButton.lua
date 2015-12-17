@@ -27,7 +27,7 @@ local hora = string.sub(temp, -3, -2)
 temp = string.sub(temp, 1, 2)
 -- obtener modo actual
 local modo  = fibaro:get(_selfId, 'ui.modoLabel.value')
-fibaro:debug('modo: '..modo..'temp: '..temp)
+fibaro:debug('modo: '..modo..' temp: '..temp)
 
 -- obtener panel correspondiente
 if not HC2 then

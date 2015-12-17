@@ -36,7 +36,12 @@ fibaro:call(_selfId, "setProperty", "ui.zonaLabel.value",
 fibaro:call(_selfId, "pressButton", "13")
 
 -- obtener termostato
---response ,status, errorCode = HC2:GET("/api/panels/heating")
---local termostato = json.decode(response).defaultThermostat
---fibaro:call(termostato, "setTargetLevel", temp)
---fibaro:call(termostato, "setTime", os.time()-30)
+--response ,status, errorCode = HC2:GET('/api/panels/heating/'..zonas[myKey].id)
+--local panel = json.decode(response)
+--local room = panel.properties.rooms[1]
+-- obtener habitacion
+--response ,status, errorCode = HC2:GET('/api/rooms/'..room)
+--local termostato = tonumber(json.decode(response).defaultThermostat)
+--fibaro:debug(termostato)
+--local tempConsigna = fibaro:get(termostato, 'targetLevel')
+--local tiempo = fibaro:get(termostato, 'timestamp')

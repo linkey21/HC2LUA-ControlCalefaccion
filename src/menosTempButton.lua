@@ -32,8 +32,3 @@ local habitacion = fibaro:getRoomID(_selfId)
 if not HC2 then
   HC2 = Net.FHttp("127.0.0.1", 11111)
 end
--- obtener termostato
-response ,status, errorCode = HC2:GET("/api/panels/heating")
---local termostato = json.decode(response).defaultThermostat
---fibaro:call(termostato, "setTargetLevel", temp)
---fibaro:call(termostato, "setTime", os.time()-30)
