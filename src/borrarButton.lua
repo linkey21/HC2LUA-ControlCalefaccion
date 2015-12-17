@@ -36,10 +36,8 @@ if handTimestamp then
 end
 panel.properties[claveTemp] = 0
 
-fibaro:debug("/api/panels/heating/"..zona)
-fibaro:debug(panel.properties.handTimestamp)
-fibaro:debug(panel.properties[claveTemp])
-
 -- guardar valores
-local json = json.encode(panel)
-esponse ,status, errorCode = HC2:PUT("/api/panels/heating/"..zona, json)
+HC2:PUT("/api/panels/heating/"..zona, json.encode(panel))
+
+-- actualizar las etiquetas con estado real de temperatura
+fibaro:call(_selfId, "pressButton", "13")

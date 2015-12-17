@@ -19,6 +19,7 @@ end
 -- obtener zona actual
 local zona = fibaro:get(_selfId, 'ui.zonaLabel.value')
 zona = string.sub(zona, 1, string.find(zona, '-', 1) - 1)
+
 -- obtener temperatura
 local temp = fibaro:get(_selfId, 'ui.tempParaLabel.value')
 -- obtener hora
@@ -26,6 +27,7 @@ local hora = string.sub(temp, -3, -2)
 temp = string.sub(temp, 1, 2)
 -- obtener modo actual
 local modo  = fibaro:get(_selfId, 'ui.modoLabel.value')
+fibaro:debug('modo: '..modo..'temp: '..temp)
 
 -- obtener panel correspondiente
 if not HC2 then
@@ -43,8 +45,8 @@ if modo == 'Manual' then
   panel.properties['vacationTemperatur'] = 0
 -- si es "Vacaciones", grabar vacationTemperatur y poner handTemperature a 0
 else
-  panel.properties['handTemperature'] = tonumber(temp)
-  panel.properties['vacationTemperatur'] = 0
+  panel.properties['handTemperature'] = 0
+  panel.properties['vacationTemperatur'] = tonumber(temp)
 end
 
 -- guardar valores

@@ -21,20 +21,20 @@ end
 response ,status, errorCode = HC2:GET("/api/panels/heating/"..zona)
 local panel = json.decode(response)
 
--- si el modo es vacaciones grabar vacationTemperature y no grabar
--- handTimestamp
+
 local tempAct, hora
--- si el modo es manual guardar handTemperature y handTimestamp
+-- si el modo es manual actualizar handTemperature y handTimestamp
 if modo == 'Manual' then
   tempAct =  panel.properties.handTemperature
-  hora = os.date('%H', panel.properties.handTimestamp)
-else
+  hora = os.date('%H', panel.properties.handTimestamp)..'h'
+else -- si el modo es vacaciones actualizar vacationTemperature pero no mostrar
+-- handTimestamp
   tempAct =  panel.properties.vacationTemperature
-  hora = '00'
+  hora = '   '
 end
 tempAct = string.format('%02d', tostring(tempAct))
 
 -- actualizar valores
 fibaro:debug(tempAct..'ºC / '..hora..'h')
 fibaro:call(_selfId, "setProperty", 'ui.tempParaLabel.value',
-  tempAct..'ºC / '..hora..'h')
+  tempAct..'ºC / '..hora)

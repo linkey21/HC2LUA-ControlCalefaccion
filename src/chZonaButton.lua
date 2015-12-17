@@ -34,3 +34,9 @@ fibaro:call(_selfId, "setProperty", "ui.zonaLabel.value",
 
 -- actualizar las etiquetas con estado real de temperatura
 fibaro:call(_selfId, "pressButton", "13")
+
+-- obtener termostato
+--response ,status, errorCode = HC2:GET("/api/panels/heating")
+--local termostato = json.decode(response).defaultThermostat
+--fibaro:call(termostato, "setTargetLevel", temp)
+--fibaro:call(termostato, "setTime", os.time()-30)
