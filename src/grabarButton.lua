@@ -9,11 +9,12 @@ local _selfId = fibaro:getSelfId()  -- ID de este dispositivo virtual
 --[[----- FIN CONFIGURACION AVANZADA -----------------------------------------]]
 
 function calcularTimestamp(hora)
-  local cuando = os.date('*t', os.time())
-  cuando.hour = tonumber(hora)
-  cuando.min = 0
-  cuando.sec = 0
-  return os.time(cuando)
+  --local cuando = os.date('*t', os.time())
+  --cuando.hour = tonumber(hora)
+  --cuando.min = 0
+  --cuando.sec = 0
+  --return os.time(cuando)
+  return os.time()+(hora*3600)
 end
 
 -- obtener zona actual
