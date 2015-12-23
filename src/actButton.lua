@@ -33,7 +33,23 @@ else -- si el modo es vacaciones actualizar vacationTemperature pero no mostrar
 end
 tempAct = string.format('%02d', tostring(tempAct))
 
--- actualizar valores
+-- actualizar valores de etiquetas
 fibaro:debug(tempAct..'ºC / '..hora..'h')
 fibaro:call(_selfId, "setProperty", 'ui.tempParaLabel.value',
   tempAct..'ºC / '..hora..'h')
+
+-- actualizar icono
+local iconoRecomendado
+if panel.properties.handTemperature ~= 0 then
+  -- icono de temperatura manual
+  iconoRecomendado = 1062
+elseif panel.properties.vacationTemperature ~= 0 then
+  -- icono de temperatura vacaciones
+  iconoRecomendado = 1050
+else
+  -- icono de temperatura programada
+  iconoRecomendado = 1061
+end
+fibaro:debug(iconoRecomendado)
+-- refrescar icono recomendacion
+fibaro:call(_selfId, 'setProperty', "currentIcon", iconoRecomendado)

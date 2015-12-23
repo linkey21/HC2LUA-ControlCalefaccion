@@ -8,9 +8,9 @@
 local _selfId = fibaro:getSelfId()  -- ID de este dispositivo virtual
 --[[----- FIN CONFIGURACION AVANZADA -----------------------------------------]]
 
-local modo = fibaro:get(_selfId, 'ui.ModoLabel.value')
+local modo = fibaro:get(_selfId, 'ui.modoLabel.value')
 -- si el modo es vacacions mo se puede seleccionar hora
-if modo <> "Vacaciones" then
+if modo ~= "Vacaciones" then
   local tempAct = fibaro:get(_selfId, 'ui.tempParaLabel.value')
   local tiemMax = 23
   local index

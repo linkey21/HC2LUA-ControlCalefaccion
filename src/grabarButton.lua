@@ -42,12 +42,15 @@ local panel = json.decode(response)
 if modo == 'Manual' then
   panel.properties['handTemperature'] = tonumber(temp)
   panel.properties.handTimestamp = tonumber(calcularTimestamp(hora))
-  panel.properties['vacationTemperatur'] = 0
+  panel.properties['vacationTemperature'] = 0
 -- si es "Vacaciones", grabar vacationTemperatur y poner handTemperature a 0
 else
   panel.properties['handTemperature'] = 0
-  panel.properties['vacationTemperatur'] = tonumber(temp)
+  panel.properties['vacationTemperature'] = tonumber(temp)
 end
 
 -- guardar valores
 HC2:PUT("/api/panels/heating/"..zona, json.encode(panel))
+
+-- actualizar las etiquetas con estado real de temperatura
+fibaro:call(_selfId, "pressButton", "13")
