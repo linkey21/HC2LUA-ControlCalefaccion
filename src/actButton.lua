@@ -47,6 +47,15 @@ function getIcon(panel)
   return icono, tempAct..'ºC / '..hora..'h'
 end
 
+--[[----------------------------------------------------------------------------
+redondea(num, idp)
+	--
+--]]
+function redondea(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 -- obtener zona actual
 local zona = fibaro:get(_selfId, 'ui.zonaLabel.value')
 local textoZona = string.sub(zona, string.find(zona, '-', 1) + 1, #zona)
@@ -68,6 +77,7 @@ if modo == 'Manual' then
   tempAct =  panel.properties.handTemperature
   -- hora = os.date('%H', panel.properties.handTimestamp)
   hora = math.ceil((panel.properties.handTimestamp - os.time()) / 3600)
+  fibaro:debug(redondea((panel.properties.handTimestamp - os.time())/3600) )
   if hora < 0 then hora = 0 end
   hora = string.format('%02d', hora)
 else -- si el modo es vacaciones actualizar vacationTemperature pero no mostrar
